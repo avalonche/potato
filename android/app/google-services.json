@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "426838262090",
+    "firebase_url": "https://potato-12007.firebaseio.com",
+    "project_id": "potato-12007",
+    "storage_bucket": "potato-12007.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426838262090:android:027b922f0e754bf43bc1b3",
+        "android_client_info": {
+          "package_name": "com.potato"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426838262090-hp2ba3uk76sae46ld53tr8jjbje60v25.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.potato",
+            "certificate_hash": "3693c6380e29bcd5b6836a89f221493ba4a9e807"
+          }
+        },
+        {
+          "client_id": "426838262090-mjbh7ragov6582nvf0eo6pt4msaikqbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-IGa-hUFaf9B60B810LFKanwoGQpyUYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426838262090-mjbh7ragov6582nvf0eo6pt4msaikqbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

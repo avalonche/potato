@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>426838262090-rgc25u5i1bqpl4hgnfq0j6dccr2ndk3a.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.426838262090-rgc25u5i1bqpl4hgnfq0j6dccr2ndk3a</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>426838262090-hp2ba3uk76sae46ld53tr8jjbje60v25.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA4QUX7csRKw-vDdmnHeH20azYlYgFJdJg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>426838262090</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.potato</string>
+	<key>PROJECT_ID</key>
+	<string>potato-12007</string>
+	<key>STORAGE_BUCKET</key>
+	<string>potato-12007.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:426838262090:ios:f4c2bb49a0f099c93bc1b3</string>
+	<key>DATABASE_URL</key>
+	<string>https://potato-12007.firebaseio.com</string>
+</dict>
+</plist>
