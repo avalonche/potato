@@ -1,14 +1,15 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, ActionSheetIOS } from 'react-native';
 
 export default function Button(props) {
     const {
         // other props
         style,
-        children
+        children,
+        ...other
     } = props
     return (
-        <TouchableOpacity style={style}>
+        <TouchableOpacity style={style} {...other}>
             {children}
         </TouchableOpacity>
     )
