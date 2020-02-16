@@ -29,6 +29,7 @@ import {
 import Button from './components/common/Button';
 
 import auth, { firebase } from '@react-native-firebase/auth';
+//import styles from './components/Input/styles';
 
 declare var global: {HermesInternal: null | {}};
 
@@ -51,6 +52,14 @@ const App = () => {
     if (initializing) setInitializing(false);
   }
 
+  function maybeInitializeFirebase() {
+    try{
+      firebase.app();
+    } catch (err) {
+      firebase.initializeApp(config);
+    }
+  }
+
   useEffect(() => {
     if (!firebase.app()) {
       firebase.initializeApp(config);
@@ -62,9 +71,9 @@ const App = () => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  async function login() {
-    const email = "weilon+potato@weilonying.com";
-    const password = "potatopotato";
+  async function login(): Promise<void> {
+    const email: string = "weilon+potato@weilonying.com";
+    const password: string = "potatopotato";
     try {
       await auth().signInWithEmailAndPassword(email, password);
     } catch (e) {
@@ -72,7 +81,7 @@ const App = () => {
     }
   }
 
-  async function register() {
+  async function register(): Promise<void> {
     const email = "weilon+potato@weilonying.com";
     const password = "potatopotato";
     try {
@@ -80,6 +89,19 @@ const App = () => {
     } catch (e) {
       console.error(e.message);
     }
+  }
+
+  async function logout(): Promise<void> {
+    
+  }
+
+  maybeInitializeFirebase();
+  if (initializing) {
+    return (
+      <View>
+        <Text>Initializing...</Text>
+      </View>
+    )
   }
   if (!user) {
     return (
@@ -91,8 +113,18 @@ const App = () => {
   }
   return (
     <>
-      <View>
-        <Text>Welcome {user.email}</Text>
+      <View style={{
+        flex: 1, 
+        flexDirection: 'column',
+        padding: 10,
+      }}>
+        <View style={{
+          height: 20,
+        }}>
+          <Text style={styles.sectionTitle}>Welcome!</Text>
+          <Text style={styles.sectionDescription}>You are logged in as {user.email}</Text>
+        </View>
+        
       </View>
     </>
   );
