@@ -27,44 +27,42 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import Button from './components/common/Button';
+import { AppConfig } from './AppConfig';
 
 import auth, { firebase } from '@react-native-firebase/auth';
+//import styles from './components/Input/styles';
 
 declare var global: {HermesInternal: null | {}};
 
 const App = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
+  const [firebaseApp, setFirebaseApp] = useState();
 
-  const config = {
-    apiKey: "AIzaSyAUmC-oI9D4bX2_n70xFVOXmbzUNZ-2G7g",
-    authDomain: "potato-12007.firebaseapp.com",
-    databaseURL: "https://potato-12007.firebaseio.com",
-    projectId: "potato-12007",
-    storageBucket: "potato-12007.appspot.com",
-    messagingSenderId: "426838262090",
-    appId: "1:426838262090:web:1fb076a2289b2c3e3bc1b3"
-  };
-
-  function onAuthStateChanged(user) {
+  function onAuthStateChanged(user: any): void {
     setUser(user);
     if (initializing) setInitializing(false);
   }
 
-  useEffect(() => {
-    if (!firebase.app()) {
-      firebase.initializeApp(config);
+  function maybeInitializeFirebase(): void {
+    try {
+      if (!firebase.app()) {
+        firebase.initializeApp(AppConfig);
+      }
+    } catch (e) {
+      firebase.initializeApp(AppConfig);
     }
-  }, []);
+  }
 
   useEffect(() => {
+    maybeInitializeFirebase();
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  async function login() {
-    const email = "weilon+potato@weilonying.com";
-    const password = "potatopotato";
+  async function login(): Promise<void> {
+    const email: string = "weilon+potato@weilonying.com";
+    const password: string = "potatopotato";
     try {
       await auth().signInWithEmailAndPassword(email, password);
     } catch (e) {
@@ -72,7 +70,15 @@ const App = () => {
     }
   }
 
-  async function register() {
+  async function logout(): Promise<void> {
+    try {
+      await auth().signOut();
+    } catch (e) {
+      console.error(e.message);
+    }
+  }
+
+  async function register(): Promise<void> {
     const email = "weilon+potato@weilonying.com";
     const password = "potatopotato";
     try {
@@ -81,24 +87,59 @@ const App = () => {
       console.error(e.message);
     }
   }
-  if (!user) {
+
+  if (initializing) {
     return (
       <View>
-        <Button onPress={register}><Text>Register</Text></Button>
-        <Button onPress={login}><Text>Login</Text></Button>
+        <Text>Initializing...</Text>
+      </View>
+    )
+  }
+  if (!user) {
+    return (
+      <View style={styles.sectionContainer}>
+        <View style={{
+          flexDirection: 'row',
+          flexGrow: 1,
+          alignSelf: 'center',
+        }}>
+          <Text style={styles.sectionTitle}>Potato</Text>
+        </View>
+        <View style={{
+          flexDirection: 'row',
+          flexGrow: 1,
+          alignSelf: 'center',
+        }}>
+          
+          <Button style={styles.button} onPress={register}><Text>Register</Text></Button>
+          <Button style={styles.button} onPress={login}><Text>Login</Text></Button>
+        </View>
       </View>
     );
   }
   return (
     <>
-      <View>
-        <Text>Welcome {user.email}</Text>
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionTitle}>Welcome!</Text>
+        <Text style={styles.sectionDescription}>You are logged in as {user.email}</Text>
+        <View style={{
+          flexDirection: 'row',
+          flexGrow: 1,
+        }}>
+          <Button style={styles.button} onPress={logout}><Text>Logout</Text></Button>
+        </View>
       </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  button: {
+    padding: 10,
+    marginHorizontal: 10,
+    backgroundColor: 'orange',
+    borderRadius: 5
+  },
   scrollView: {
     backgroundColor: Colors.lighter,
   },
@@ -112,6 +153,7 @@ const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
+    flexDirection: 'column',
   },
   sectionTitle: {
     fontSize: 24,
