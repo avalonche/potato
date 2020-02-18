@@ -1,182 +1,21 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useStores } from './hooks';
 
-import React, {useState, useEffect} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import Chat from './components/Chat';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-import Button from './components/common/Button';
-import { AppConfig } from './AppConfig';
-
-import auth, { firebase } from '@react-native-firebase/auth';
-//import styles from './components/Input/styles';
-
-declare var global: {HermesInternal: null | {}};
-
-const App = () => {
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-  const [firebaseApp, setFirebaseApp] = useState();
-
-  function onAuthStateChanged(user: any): void {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
-
-  function maybeInitializeFirebase(): void {
-    try {
-      if (!firebase.app()) {
-        firebase.initializeApp(AppConfig);
-      }
-    } catch (e) {
-      firebase.initializeApp(AppConfig);
-    }
-  }
+const App = observer(() => {
+  const { userStore } = useStores()
 
   useEffect(() => {
-    maybeInitializeFirebase();
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
+    const email = "shasha@shasha.com";
+    const password = "potato";
+    userStore.login(email, password);
   }, []);
 
-  async function login(): Promise<void> {
-    const email: string = "weilon+potato@weilonying.com";
-    const password: string = "potatopotato";
-    try {
-      await auth().signInWithEmailAndPassword(email, password);
-    } catch (e) {
-      console.error(e.message);
-    }
-  }
-
-  async function logout(): Promise<void> {
-    try {
-      await auth().signOut();
-    } catch (e) {
-      console.error(e.message);
-    }
-  }
-
-  async function register(): Promise<void> {
-    const email = "weilon+potato@weilonying.com";
-    const password = "potatopotato";
-    try {
-      await auth().createUserWithEmailAndPassword(email, password);
-    } catch (e) {
-      console.error(e.message);
-    }
-  }
-
-  if (initializing) {
-    return (
-      <View>
-        <Text>Initializing...</Text>
-      </View>
-    )
-  }
-  if (!user) {
-    return (
-      <View style={styles.sectionContainer}>
-        <View style={{
-          flexDirection: 'row',
-          flexGrow: 1,
-          alignSelf: 'center',
-        }}>
-          <Text style={styles.sectionTitle}>Potato</Text>
-        </View>
-        <View style={{
-          flexDirection: 'row',
-          flexGrow: 1,
-          alignSelf: 'center',
-        }}>
-          
-          <Button style={styles.button} onPress={register}><Text>Register</Text></Button>
-          <Button style={styles.button} onPress={login}><Text>Login</Text></Button>
-        </View>
-      </View>
-    );
-  }
   return (
-    <>
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Welcome!</Text>
-        <Text style={styles.sectionDescription}>You are logged in as {user.email}</Text>
-        <View style={{
-          flexDirection: 'row',
-          flexGrow: 1,
-        }}>
-          <Button style={styles.button} onPress={logout}><Text>Logout</Text></Button>
-        </View>
-      </View>
-    </>
-  );
-};
-
-const styles = StyleSheet.create({
-  button: {
-    padding: 10,
-    marginHorizontal: 10,
-    backgroundColor: 'orange',
-    borderRadius: 5
-  },
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-    flexDirection: 'column',
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+    userStore.uid ? <Chat /> : null
+  )
+})
 
 export default App;

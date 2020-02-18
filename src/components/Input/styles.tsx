@@ -13,11 +13,12 @@ export default StyleSheet.create({
         width: '70%',
     },
     input: {
+        flexDirection: 'row',
         height: 40,
+        color: 'black',
         borderColor: 'gray',
         borderWidth: StyleSheet.hairlineWidth,
         borderRadius: 3,
-        flexDirection: 'row',
         paddingHorizontal: 10
     },
 })
