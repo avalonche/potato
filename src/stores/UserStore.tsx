@@ -1,19 +1,21 @@
 import { observable, action } from 'mobx';
 
 import { firebaseService } from '../services';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 export default class UserStore {
     /* User State */
     @observable
     uid: string | undefined;
     @observable
-    name: string = '';
+    email: string | null = null;
+    @observable
+    name: string | null = null;
 
     @action
-    async login(email: string, password: string) {
-        this.uid = await firebaseService.signIn({ email, password })
-            .then(({ user }) => {
-                return user ? user.uid : user
-            });
-        }
+    setCurrentUser(user: FirebaseAuthTypes.User) {
+        this.uid = user.uid;
+        this.email = user.email;
+        this.name = user.displayName;
+    } 
 }
