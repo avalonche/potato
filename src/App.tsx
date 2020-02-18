@@ -84,7 +84,6 @@ const App = observer(() => {
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionTitle}>Welcome!</Text>
         <Text style={styles.sectionDescription}>You are logged in as {userStore.email}</Text>
-        <Chat/>
         <View style={{
           flexDirection: 'row',
           flexGrow: 1,
@@ -94,6 +93,7 @@ const App = observer(() => {
           </Button>
         </View>
       </View>
+      <Chat/>
     </>
   );
 });
