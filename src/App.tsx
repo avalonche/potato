@@ -7,12 +7,13 @@ import { useStores } from './hooks';
 
 import Chat from './components/Chat';
 import Button from './components/common/Button';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 const App = observer(() => {
   const { userStore } = useStores()
   const [initializing, setInitializing] = useState(true);
 
-  function onAuthStateChanged(user: any): void {
+  function onAuthStateChanged(user: FirebaseAuthTypes.User | null): void {
     userStore.setCurrentUser(user);
     if (initializing) setInitializing(false);
   }
