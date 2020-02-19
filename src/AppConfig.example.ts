@@ -1,4 +1,4 @@
-export const AppConfig = {
+const AppConfig = {
     apiKey: "",
     authDomain: "",
     databaseURL: "",
@@ -7,3 +7,5 @@ export const AppConfig = {
     messagingSenderId: "",
     appId: ""
 }
+
+export default AppConfig;
