@@ -22,7 +22,11 @@ class FireBaseService {
     msgRef: FirebaseFirestoreTypes.CollectionReference;
 
     constructor() {
-        this.app = firebase.initializeApp(config);
+        if (firebase.apps.length === 0) {
+            this.app = firebase.initializeApp(config);
+        } else {
+            this.app = firebase.app();
+        }
         this.auth = auth();
         this.db = firestore();
         this.msgRef = this.db.collection(COLLECTIONS.MESSAGES);
