@@ -7,7 +7,16 @@ import { useStores } from './hooks';
 
 import Chat from './components/Chat';
 import Button from './components/common/Button';
+
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import SolidButton from './components/common/SolidButton';
+import OutlineButton from './components/common/OutlineButton';
+import { AppConfig } from './AppConfig';
+
+import auth, { firebase } from '@react-native-firebase/auth';
+//import styles from './components/Input/styles';
+
+declare var global: {HermesInternal: null | {}};
 
 const App = observer(() => {
   const { userStore } = useStores()
@@ -73,9 +82,8 @@ const App = observer(() => {
           flexGrow: 1,
           alignSelf: 'center',
         }}>
-          
-          <Button style={styles.button} onPress={register}><Text>Register</Text></Button>
-          <Button style={styles.button} onPress={login}><Text>Login</Text></Button>
+          <OutlineButton onPress={register}><Text>Register</Text></OutlineButton>
+          <SolidButton onPress={login}><Text>Login</Text></SolidButton>
         </View>
       </View>
     );
@@ -89,9 +97,7 @@ const App = observer(() => {
           flexDirection: 'row',
           flexGrow: 1,
         }}>
-          <Button style={styles.button} onPress={logout}>
-            <Text>Logout</Text>
-          </Button>
+          <SolidButton onPress={logout}><Text>Logout</Text></SolidButton>
         </View>
       </View>
       <Chat/>
@@ -102,11 +108,15 @@ const App = observer(() => {
 export default App;
 
 const styles = StyleSheet.create({
-  button: {
-    padding: 10,
-    marginHorizontal: 10,
-    backgroundColor: 'orange',
-    borderRadius: 5
+  scrollView: {
+    backgroundColor: Colors.lighter,
+  },
+  engine: {
+    position: 'absolute',
+    right: 0,
+  },
+  body: {
+    backgroundColor: Colors.white,
   },
   sectionContainer: {
     marginTop: 32,
