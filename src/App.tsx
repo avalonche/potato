@@ -1,32 +1,14 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { observer } from 'mobx-react-lite';
 
-import React, {useState, useEffect} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import { firebaseService } from './services';
+import { useStores } from './hooks';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
+import Chat from './components/Chat';
 import Button from './components/common/Button';
+
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import SolidButton from './components/common/SolidButton';
 import OutlineButton from './components/common/OutlineButton';
 import { AppConfig } from './AppConfig';
@@ -36,29 +18,17 @@ import auth, { firebase } from '@react-native-firebase/auth';
 
 declare var global: {HermesInternal: null | {}};
 
-const App = () => {
+const App = observer(() => {
+  const { userStore } = useStores()
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-  const [firebaseApp, setFirebaseApp] = useState();
 
-  function onAuthStateChanged(user: any): void {
-    setUser(user);
+  function onAuthStateChanged(user: FirebaseAuthTypes.User | null): void {
+    userStore.setCurrentUser(user);
     if (initializing) setInitializing(false);
   }
 
-  function maybeInitializeFirebase(): void {
-    try {
-      if (!firebase.app()) {
-        firebase.initializeApp(AppConfig);
-      }
-    } catch (e) {
-      firebase.initializeApp(AppConfig);
-    }
-  }
-
   useEffect(() => {
-    maybeInitializeFirebase();
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    const subscriber = firebaseService.auth.onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
 
@@ -66,7 +36,7 @@ const App = () => {
     const email: string = "weilon+potato@weilonying.com";
     const password: string = "potatopotato";
     try {
-      await auth().signInWithEmailAndPassword(email, password);
+      await firebaseService.auth.signInWithEmailAndPassword(email, password);
     } catch (e) {
       console.error(e.message);
     }
@@ -74,7 +44,7 @@ const App = () => {
 
   async function logout(): Promise<void> {
     try {
-      await auth().signOut();
+      await firebaseService.auth.signOut();
     } catch (e) {
       console.error(e.message);
     }
@@ -84,7 +54,7 @@ const App = () => {
     const email = "weilon+potato@weilonying.com";
     const password = "potatopotato";
     try {
-      await auth().createUserWithEmailAndPassword(email, password);
+      await firebaseService.auth.createUserWithEmailAndPassword(email, password);
     } catch (e) {
       console.error(e.message);
     }
@@ -97,7 +67,7 @@ const App = () => {
       </View>
     )
   }
-  if (!user) {
+  if (!userStore.uid) {
     return (
       <View style={styles.sectionContainer}>
         <View style={{
@@ -122,7 +92,7 @@ const App = () => {
     <>
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionTitle}>Welcome!</Text>
-        <Text style={styles.sectionDescription}>You are logged in as {user.email}</Text>
+        <Text style={styles.sectionDescription}>You are logged in as {userStore.email}</Text>
         <View style={{
           flexDirection: 'row',
           flexGrow: 1,
@@ -130,9 +100,12 @@ const App = () => {
           <SolidButton onPress={logout}><Text>Logout</Text></SolidButton>
         </View>
       </View>
+      <Chat/>
     </>
   );
-};
+});
+
+export default App;
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -153,25 +126,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
-    color: Colors.black,
+    color: 'black',
   },
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
     fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+    color: 'black',
   },
 });
-
-export default App;
