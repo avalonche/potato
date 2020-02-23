@@ -6,15 +6,10 @@ import { firebaseService } from './services';
 import { useStores } from './hooks';
 
 import Chat from './components/Chat';
-import Button from './components/common/Button';
 
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import SolidButton from './components/common/SolidButton';
 import OutlineButton from './components/common/OutlineButton';
-import { AppConfig } from './AppConfig';
-
-import auth, { firebase } from '@react-native-firebase/auth';
-//import styles from './components/Input/styles';
 
 declare var global: {HermesInternal: null | {}};
 
@@ -108,15 +103,9 @@ const App = observer(() => {
 export default App;
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
   engine: {
     position: 'absolute',
     right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
   },
   sectionContainer: {
     marginTop: 32,
