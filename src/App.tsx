@@ -27,6 +27,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import Button from './components/common/Button';
+import SolidButton from './components/common/SolidButton';
+import OutlineButton from './components/common/OutlineButton';
 import { AppConfig } from './AppConfig';
 
 import auth, { firebase } from '@react-native-firebase/auth';
@@ -110,9 +112,8 @@ const App = () => {
           flexGrow: 1,
           alignSelf: 'center',
         }}>
-          
-          <Button style={styles.button} onPress={register}><Text>Register</Text></Button>
-          <Button style={styles.button} onPress={login}><Text>Login</Text></Button>
+          <OutlineButton onPress={register}><Text>Register</Text></OutlineButton>
+          <SolidButton onPress={login}><Text>Login</Text></SolidButton>
         </View>
       </View>
     );
@@ -126,7 +127,7 @@ const App = () => {
           flexDirection: 'row',
           flexGrow: 1,
         }}>
-          <Button style={styles.button} onPress={logout}><Text>Logout</Text></Button>
+          <SolidButton onPress={logout}><Text>Logout</Text></SolidButton>
         </View>
       </View>
     </>
@@ -134,12 +135,6 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  button: {
-    padding: 10,
-    marginHorizontal: 10,
-    backgroundColor: 'orange',
-    borderRadius: 5
-  },
   scrollView: {
     backgroundColor: Colors.lighter,
   },
