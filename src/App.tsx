@@ -1,17 +1,21 @@
+import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react-lite';
 
 import { firebaseService } from './services';
 import { useStores } from './hooks';
 
-import Chat from './components/Chat';
+import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
 
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import SolidButton from './components/common/SolidButton';
-import OutlineButton from './components/common/OutlineButton';
 
 declare var global: {HermesInternal: null | {}};
+
+const Stack = createStackNavigator();
 
 const App = observer(() => {
   const { userStore } = useStores()
@@ -27,34 +31,6 @@ const App = observer(() => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  async function login(): Promise<void> {
-    const email: string = "weilon+potato@weilonying.com";
-    const password: string = "potatopotato";
-    try {
-      await firebaseService.auth.signInWithEmailAndPassword(email, password);
-    } catch (e) {
-      console.error(e.message);
-    }
-  }
-
-  async function logout(): Promise<void> {
-    try {
-      await firebaseService.auth.signOut();
-    } catch (e) {
-      console.error(e.message);
-    }
-  }
-
-  async function register(): Promise<void> {
-    const email = "weilon+potato@weilonying.com";
-    const password = "potatopotato";
-    try {
-      await firebaseService.auth.createUserWithEmailAndPassword(email, password);
-    } catch (e) {
-      console.error(e.message);
-    }
-  }
-
   if (initializing) {
     return (
       <View>
@@ -62,41 +38,18 @@ const App = observer(() => {
       </View>
     )
   }
-  if (!userStore.uid) {
-    return (
-      <View style={styles.sectionContainer}>
-        <View style={{
-          flexDirection: 'row',
-          flexGrow: 1,
-          alignSelf: 'center',
-        }}>
-          <Text style={styles.sectionTitle}>Potato</Text>
-        </View>
-        <View style={{
-          flexDirection: 'row',
-          flexGrow: 1,
-          alignSelf: 'center',
-        }}>
-          <OutlineButton onPress={register}><Text>Register</Text></OutlineButton>
-          <SolidButton onPress={login}><Text>Login</Text></SolidButton>
-        </View>
-      </View>
-    );
-  }
+
+  const initialScreen = userStore.uid ? 'Home' : 'LoginScreen';
   return (
-    <>
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Welcome!</Text>
-        <Text style={styles.sectionDescription}>You are logged in as {userStore.email}</Text>
-        <View style={{
-          flexDirection: 'row',
-          flexGrow: 1,
-        }}>
-          <SolidButton onPress={logout}><Text>Logout</Text></SolidButton>
-        </View>
-      </View>
-      <Chat/>
-    </>
+    <NavigationContainer>
+      <Stack.Navigator>
+        {
+          userStore.uid ?
+            <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Potato' }} /> :
+            <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: 'Login' }} />
+        }
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 });
 
