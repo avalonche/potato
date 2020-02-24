@@ -39,7 +39,6 @@ const App = observer(() => {
     )
   }
 
-  const initialScreen = userStore.uid ? 'Home' : 'LoginScreen';
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -54,26 +53,3 @@ const App = observer(() => {
 });
 
 export default App;
-
-const styles = StyleSheet.create({
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-    flexDirection: 'column',
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: 'black',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: 'black',
-  },
-});
