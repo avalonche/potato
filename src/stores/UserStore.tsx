@@ -1,6 +1,5 @@
 import { observable, action } from 'mobx';
 
-import { firebaseService } from '../services';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 export default class UserStore {
