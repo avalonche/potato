@@ -2,7 +2,6 @@ import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, Text, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react-lite';
 
 import { firebaseService } from './services';
@@ -11,9 +10,9 @@ import { useStores } from './hooks';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import Loader from './components/common/Loader';
 
-declare var global: {HermesInternal: null | {}};
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 const Stack = createStackNavigator();
 
@@ -33,13 +32,10 @@ const App = observer(() => {
 
   if (initializing) {
     return (
-      <View>
-        <Text>Initializing...</Text>
-      </View>
+      <Loader loadingMessage={'Initializing...'}/>
     )
   }
 
-  const initialScreen = userStore.uid ? 'Home' : 'LoginScreen';
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -54,26 +50,3 @@ const App = observer(() => {
 });
 
 export default App;
-
-const styles = StyleSheet.create({
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-    flexDirection: 'column',
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: 'black',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: 'black',
-  },
-});
